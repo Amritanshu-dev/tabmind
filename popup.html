@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="stylesheet" href="styles.css" />
+  <title>TabMind</title>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="logo">
+        <div class="logo-name">Tab<span>Mind</span></div>
+        <div class="logo-sub">Remember why you opened it</div>
+      </div>
+      <div class="header-stats">
+        <div class="stat"><div class="stat-num" id="stat-open">0</div><div class="stat-label">Open</div></div>
+        <div class="stat"><div class="stat-num" id="stat-due">0</div><div class="stat-label">Due</div></div>
+        <div class="stat"><div class="stat-num" id="stat-done">0</div><div class="stat-label">Done</div></div>
+      </div>
+    </header>
+
+    <div class="add-section">
+      <div class="section-label">📌 Save current tab</div>
+      <div style="margin-bottom:10px;">
+        <input type="text" id="input-url" placeholder="Auto-filled from current tab" readonly />
+      </div>
+      <div style="margin-bottom:10px;">
+        <input type="text" id="input-reason" placeholder="Why are you saving this?" />
+      </div>
+      <div class="form-row">
+        <div class="field">
+          <label>Category</label>
+          <select id="input-category">
+            <option value="research">🔬 Research</option>
+            <option value="work">💼 Work</option>
+            <option value="buy">🛒 Buy</option>
+            <option value="read">📖 Read</option>
+            <option value="watch">🎬 Watch</option>
+            <option value="other">📎 Other</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Priority</label>
+          <select id="input-priority">
+            <option value="high">High</option>
+            <option value="medium">Medium</option>
+            <option value="low">Low</option>
+          </select>
+        </div>
+      </div>
+      <div id="custom-category-wrap" style="display:none; margin-bottom:10px;">
+        <input type="text" id="input-custom-category" placeholder="Name your category..." maxlength="30" />
+      </div>
+      <div class="field" style="margin-bottom:10px;">
+        <label>Remind me</label>
+        <div class="remind-trigger" id="remind-trigger">
+          <span id="remind-display-text">📅 Set reminder...</span>
+          <span class="remind-trigger-arrow">›</span>
+        </div>
+      </div>
+      <button class="add-btn" id="add-btn">Save this tab →</button>
+    </div>
+
+    <div class="filters">
+      <button class="filter-btn active" data-filter="all">All</button>
+      <button class="filter-btn" data-filter="open">Open</button>
+      <button class="filter-btn" data-filter="overdue">⚠ Overdue</button>
+      <button class="filter-btn" data-filter="today">Today</button>
+      <button class="filter-btn" data-filter="done">Done</button>
+    </div>
+
+    <div class="section-header">
+      <div class="section-title">Saved tabs <span class="count-badge" id="visible-count">0</span></div>
+      <button class="clear-done-btn" id="clear-done-btn">Clear done</button>
+    </div>
+
+    <div id="tabs-list"></div>
+  </div>
+
+  <div class="overlay" id="overlay"></div>
+
+  <div class="picker-popup" id="cal-popup">
+    <div class="picker-header">
+      <span class="picker-title">Pick a date</span>
+      <button class="picker-close" id="cal-close">✕</button>
+    </div>
+    <div class="cal-nav">
+      <button class="cal-nav-btn" id="cal-prev">‹</button>
+      <span class="cal-month-label" id="cal-month-label"></span>
+      <button class="cal-nav-btn" id="cal-next">›</button>
+    </div>
+    <div class="cal-grid" id="cal-grid"></div>
+  </div>
+
+  <div class="picker-popup" id="clock-popup">
+    <div class="picker-header">
+      <button class="picker-back" id="clock-back">‹ Back</button>
+      <span class="picker-title">Pick a time</span>
+      <button class="picker-close" id="clock-close">✕</button>
+    </div>
+    <div class="clock-display">
+      <div class="clock-time-row">
+        <div class="clock-segment">
+          <button class="clock-arrow" id="hour-up">▲</button>
+          <div class="clock-num" id="clock-hour">09</div>
+          <button class="clock-arrow" id="hour-down">▼</button>
+        </div>
+        <div class="clock-sep">:</div>
+        <div class="clock-segment">
+          <button class="clock-arrow" id="min-up">▲</button>
+          <div class="clock-num" id="clock-min">00</div>
+          <button class="clock-arrow" id="min-down">▼</button>
+        </div>
+        <div class="clock-segment clock-ampm-seg">
+          <button class="clock-arrow" id="ampm-up">▲</button>
+          <div class="clock-num clock-ampm" id="clock-ampm">AM</div>
+          <button class="clock-arrow" id="ampm-down">▼</button>
+        </div>
+      </div>
+      <div class="clock-face-wrap">
+        <canvas id="clock-canvas" width="200" height="200"></canvas>
+      </div>
+      <div class="clock-quickrow" id="clock-quickrow">
+        <button class="clock-chip" data-h="9"  data-m="0" data-ap="AM">9 AM</button>
+        <button class="clock-chip" data-h="12" data-m="0" data-ap="PM">12 PM</button>
+        <button class="clock-chip" data-h="3"  data-m="0" data-ap="PM">3 PM</button>
+        <button class="clock-chip" data-h="6"  data-m="0" data-ap="PM">6 PM</button>
+        <button class="clock-chip" data-h="8"  data-m="0" data-ap="PM">8 PM</button>
+      </div>
+    </div>
+    <div class="clock-confirm-row">
+      <div class="clock-selected-label" id="clock-selected-label">—</div>
+      <button class="clock-confirm-btn" id="clock-confirm-btn">Set reminder →</button>
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
